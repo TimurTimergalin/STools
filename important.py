@@ -1,55 +1,35 @@
-from important_interface import Ui_Form
 from PyQt5 import QtWidgets, QtGui, QtCore
 from dbwork import DBWork as Db
+from constatnts import all_lessons
 
 
-class Important(QtWidgets.QDialog, Ui_Form):
+class Important(QtWidgets.QDialog):
     def __init__(self, par=None):
         super().__init__(par)
         self.par = par
-        self.setupUi(self)  # Временное решение
+        self.setGeometry(200, 200, 900, 375)
         self.connect_boxes()
-        self.ok_.clicked.connect(self.ok)
+        self.make_button()
         self.list_of_clicked = []
 
-    def connect_boxes(self):  # Ккрипт автоматизации будет вскоре написан
-        self.checkBox.stateChanged.connect(self.add_to_list)
-        self.checkBox_2.stateChanged.connect(self.add_to_list)
-        self.checkBox_3.stateChanged.connect(self.add_to_list)
-        self.checkBox_4.stateChanged.connect(self.add_to_list)
-        self.checkBox_5.stateChanged.connect(self.add_to_list)
-        self.checkBox_6.stateChanged.connect(self.add_to_list)
-        self.checkBox_7.stateChanged.connect(self.add_to_list)
-        self.checkBox_8.stateChanged.connect(self.add_to_list)
-        self.checkBox_9.stateChanged.connect(self.add_to_list)
-        self.checkBox_10.stateChanged.connect(self.add_to_list)
-        self.checkBox_11.stateChanged.connect(self.add_to_list)
-        self.checkBox_12.stateChanged.connect(self.add_to_list)
-        self.checkBox_13.stateChanged.connect(self.add_to_list)
-        self.checkBox_14.stateChanged.connect(self.add_to_list)
-        self.checkBox_15.stateChanged.connect(self.add_to_list)
-        self.checkBox_16.stateChanged.connect(self.add_to_list)
-        self.checkBox_17.stateChanged.connect(self.add_to_list)
-        self.checkBox_18.stateChanged.connect(self.add_to_list)
-        self.checkBox_19.stateChanged.connect(self.add_to_list)
-        self.checkBox_20.stateChanged.connect(self.add_to_list)
-        self.checkBox_21.stateChanged.connect(self.add_to_list)
-        self.checkBox_22.stateChanged.connect(self.add_to_list)
-        self.checkBox_23.stateChanged.connect(self.add_to_list)
-        self.checkBox_24.stateChanged.connect(self.add_to_list)
-        self.checkBox_25.stateChanged.connect(self.add_to_list)
-        self.checkBox_26.stateChanged.connect(self.add_to_list)
-        self.checkBox_27.stateChanged.connect(self.add_to_list)
-        self.checkBox_28.stateChanged.connect(self.add_to_list)
-        self.checkBox_29.stateChanged.connect(self.add_to_list)
-        self.checkBox_30.stateChanged.connect(self.add_to_list)
-        self.checkBox_31.stateChanged.connect(self.add_to_list)
-        self.checkBox_32.stateChanged.connect(self.add_to_list)
-        self.checkBox_33.stateChanged.connect(self.add_to_list)
-        self.checkBox_34.stateChanged.connect(self.add_to_list)
-        self.checkBox_35.stateChanged.connect(self.add_to_list)
-        self.checkBox_36.stateChanged.connect(self.add_to_list)
-        self.checkBox_37.stateChanged.connect(self.add_to_list)
+    def connect_boxes(self):
+        lessons = all_lessons[:-1]
+        for i in range(len(lessons)):
+            box = QtWidgets.QCheckBox(self)
+            width = 125
+            height = 25
+            space = 25
+            x = space * (i % 6 + 1) + width * (i % 6)
+            y = space * (i // 6 + 1) + height * (i // 6)
+            box.setGeometry(x, y, width, height)
+            box.setText(lessons[i])
+            box.stateChanged.connect(self.add_to_list)
+
+    def make_button(self):
+        self.ok_ = QtWidgets.QPushButton(self)
+        self.ok_.setText('OK')
+        self.ok_.setGeometry(475, 325, 125, 50)
+        self.ok_.clicked.connect(self.ok)
 
     def add_to_list(self, state):
         if state == QtCore.Qt.Checked:
