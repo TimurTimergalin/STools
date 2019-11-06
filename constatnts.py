@@ -23,3 +23,8 @@ week_dict = {
 }
 
 NUMBER_OF_LESSONS = 7
+
+to_en = {
+    'ГДЗ': 'gdz',
+    'Учебники': 'books'
+}

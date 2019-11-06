@@ -8,6 +8,7 @@ class Important(QtWidgets.QDialog):
         super().__init__(par)
         self.par = par
         self.setGeometry(200, 200, 900, 375)
+        self.setWindowTitle('Важные')
         self.connect_boxes()
         self.make_button()
         self.list_of_clicked = []

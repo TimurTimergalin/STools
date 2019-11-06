@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'stools.ui'
+# Form implementation generated from reading ui file 'misc/stools.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 605)
+        MainWindow.resize(800, 600)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
@@ -306,9 +306,9 @@ class Ui_MainWindow(object):
         self.important_ = QtWidgets.QPushButton(self.tab_lessons)
         self.important_.setGeometry(QtCore.QRect(190, 510, 141, 23))
         self.important_.setObjectName("important_")
-        self.change_ = QtWidgets.QPushButton(self.tab_lessons)
-        self.change_.setGeometry(QtCore.QRect(450, 510, 141, 23))
-        self.change_.setObjectName("important_1")
+        self.important_1 = QtWidgets.QPushButton(self.tab_lessons)
+        self.important_1.setGeometry(QtCore.QRect(450, 510, 141, 23))
+        self.important_1.setObjectName("important_1")
         self.tabWidget.addTab(self.tab_lessons, "")
         self.tab_keys = QtWidgets.QWidget()
         self.tab_keys.setObjectName("tab_keys")
@@ -343,9 +343,6 @@ class Ui_MainWindow(object):
         self.delete_1 = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.delete_1.setObjectName("delete_1")
         self.horizontalLayout_2.addWidget(self.delete_1)
-        self.update_ = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.update_.setObjectName("update_")
-        self.horizontalLayout_2.addWidget(self.update_)
         self.tabWidget.addTab(self.tab_keys, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -353,7 +350,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -391,7 +388,7 @@ class Ui_MainWindow(object):
         item = self.t_monday.verticalHeaderItem(5)
         item.setText(_translate("MainWindow", "6"))
         item = self.t_monday.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "Доп."))
         item = self.t_monday.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Предмет"))
         item = self.t_tuesday.verticalHeaderItem(0)
@@ -407,7 +404,7 @@ class Ui_MainWindow(object):
         item = self.t_tuesday.verticalHeaderItem(5)
         item.setText(_translate("MainWindow", "6"))
         item = self.t_tuesday.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "Доп."))
         item = self.t_tuesday.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Предмет"))
         item = self.t_wednesday.verticalHeaderItem(0)
@@ -423,7 +420,7 @@ class Ui_MainWindow(object):
         item = self.t_wednesday.verticalHeaderItem(5)
         item.setText(_translate("MainWindow", "6"))
         item = self.t_wednesday.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "Доп."))
         item = self.t_wednesday.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Предмет"))
         item = self.t_thursday.verticalHeaderItem(0)
@@ -439,7 +436,7 @@ class Ui_MainWindow(object):
         item = self.t_thursday.verticalHeaderItem(5)
         item.setText(_translate("MainWindow", "6"))
         item = self.t_thursday.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "Доп."))
         item = self.t_thursday.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Предмет"))
         item = self.t_friday.verticalHeaderItem(0)
@@ -455,7 +452,7 @@ class Ui_MainWindow(object):
         item = self.t_friday.verticalHeaderItem(5)
         item.setText(_translate("MainWindow", "6"))
         item = self.t_friday.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "Доп."))
         item = self.t_friday.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Предмет"))
         item = self.t_saturday.verticalHeaderItem(0)
@@ -471,16 +468,15 @@ class Ui_MainWindow(object):
         item = self.t_saturday.verticalHeaderItem(5)
         item.setText(_translate("MainWindow", "6"))
         item = self.t_saturday.verticalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "Доп."))
         item = self.t_saturday.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Предмет"))
         self.important_.setText(_translate("MainWindow", "Важные"))
-        self.change_.setText(_translate("MainWindow", "Изменить"))
+        self.important_1.setText(_translate("MainWindow", "Изменить"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_lessons), _translate("MainWindow", "Расписание"))
         self.l_books.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">Учебники и другие пособия</p></body></html>"))
         self.l_gdz.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\">ГДЗ</p></body></html>"))
-        self.add_.setText(_translate("MainWindow", "Добавить"))
+        self.add_.setText(_translate("MainWindow", "Добавить/Изменить"))
         self.open_.setText(_translate("MainWindow", "Открыть"))
         self.delete_1.setText(_translate("MainWindow", "Удалить"))
-        self.update_.setText(_translate("MainWindow", "Изменить"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_keys), _translate("MainWindow", "Ссылки"))

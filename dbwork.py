@@ -75,3 +75,61 @@ WHERE № = {lesson_num + 1}""", (lesson,))
         cur = con.cursor()
         result = cur.execute("""SELECT lesson from important""").fetchall()
         return list(map(lambda x: x[0], result))
+
+    @staticmethod
+    def save_link(table, lesson, link):
+        con = sqlite3.connect('saves/links/links.sqlite3')
+        cur = con.cursor()
+
+        all_links = cur.execute(f"""SELECT lesson from {table}""").fetchall()
+        all_links = list(map(lambda x: x[0], all_links))
+
+        if lesson in all_links:
+            cur.execute(f"""UPDATE {table}
+SET link = ?
+WHERE lesson = ?""", (link, lesson))
+        else:
+            cur.execute(f"""INSERT INTO {table} VALUES(?, ?)""", (lesson, link))
+
+        con.commit()
+
+    @staticmethod
+    def get_links():
+        con = sqlite3.connect('saves/links/links.sqlite3')
+        cur = con.cursor()
+
+        result1 = cur.execute("""SELECT * from books""").fetchall()
+        result2 = cur.execute("""SELECT * from gdz""").fetchall()
+        return result1, result2
+
+    @staticmethod
+    def get_lesson_links():
+        con = sqlite3.connect('saves/links/links.sqlite3')
+        cur = con.cursor()
+
+        result1 = cur.execute("""SELECT lesson from books""").fetchall()
+        result2 = cur.execute("""SELECT lesson from gdz""").fetchall()
+
+        result1 = list(map(lambda x: 'Учебники-' + x[0], result1))
+        result2 = list(map(lambda x: 'ГДЗ-' + x[0], result2))
+
+        return result1 + result2
+
+    @staticmethod
+    def get_link(table, lesson):
+        con = sqlite3.connect('saves/links/links.sqlite3')
+        cur = con.cursor()
+        result = cur.execute(f"""SELECT link from {table}
+WHERE lesson = ?""", (lesson,)).fetchall()
+        if result:
+            result = result[0][0]
+        return result
+
+    @staticmethod
+    def del_link(table, lesson):
+        con = sqlite3.connect('saves/links/links.sqlite3')
+        cur = con.cursor()
+
+        cur.execute(f"""DELETE from {table}
+WHERE lesson = ?""", (lesson,))
+        con.commit()

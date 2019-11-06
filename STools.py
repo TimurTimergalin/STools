@@ -2,13 +2,12 @@ from interface1 import Ui_MainWindow
 from PyQt5 import QtWidgets as Wid
 from PyQt5 import QtGui as Gui
 from PyQt5 import QtCore as Core
-from PyQt5 import QtSql as Sql
-import sys
-from constatnts import _translate, all_lessons, week_day, NUMBER_OF_LESSONS
-import sqlite3
+from constatnts import _translate, all_lessons, week_day, NUMBER_OF_LESSONS, to_en
 from dbwork import DBWork as Db
 import datetime
 from important import Important
+from add import Add
+import webbrowser
 
 
 class STools(Wid.QMainWindow, Ui_MainWindow):
@@ -18,6 +17,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
         self.setWindowTitle('STools')
         self.mid()
         self.timetable()
+        self.links()
 
     def mid(self):
         self.marks = []
@@ -38,8 +38,14 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
                                       f"<html><head/><body><p align=\"center\"><span style=\" font-size:14pt;\">Завтра {tomorrow}</span></p></body></html>"))
         self.full_tables()
         self.change_clicked = False
-        self.change_.clicked.connect(self.change_timetable)
+        self.important_1.clicked.connect(self.change_timetable)
         self.important_.clicked.connect(self.important_clicked)
+
+    def links(self):
+        self.full_link_tables()
+        self.add_.clicked.connect(self.add_link)
+        self.open_.clicked.connect(self.open_link)
+        self.delete_1.clicked.connect(self.delete_link)
 
     def mark_clicked(self):
         mark = self.sender().text()
@@ -145,3 +151,59 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
     def important_clicked(self):
         dialog = Important(self)
         dialog.show()
+
+    def full_link_tables(self):
+        self.t_books.setRowCount(0)
+        self.t_gdz.setRowCount(0)
+        self.t_books.setColumnCount(2)
+        self.t_gdz.setColumnCount(2)
+        self.t_books.setHorizontalHeaderLabels(['Предмет', 'ссылка'])
+        self.t_gdz.setHorizontalHeaderLabels(['Предмет', 'ссылка'])
+
+        books, gdz = Db.get_links()
+
+        for i in range(len(books)):
+            self.t_books.setRowCount(i + 1)
+            item1 = Wid.QTableWidgetItem(books[i][0])
+            item2 = Wid.QTableWidgetItem(books[i][1])
+            item1.setFlags(Core.Qt.ItemIsSelectable | Core.Qt.ItemIsEnabled)
+            item2.setFlags(Core.Qt.ItemIsSelectable | Core.Qt.ItemIsEnabled)
+            self.t_books.setItem(i, 0, item1)
+            self.t_books.setItem(i, 1, item2)
+
+        for i in range(len(gdz)):
+            self.t_gdz.setRowCount(i + 1)
+            item1 = Wid.QTableWidgetItem(gdz[i][0])
+            item2 = Wid.QTableWidgetItem(gdz[i][1])
+            item1.setFlags(Core.Qt.ItemIsSelectable | Core.Qt.ItemIsEnabled)
+            item2.setFlags(Core.Qt.ItemIsSelectable | Core.Qt.ItemIsEnabled)
+            self.t_gdz.setItem(i, 0, item1)
+            self.t_gdz.setItem(i, 1, item2)
+
+        self.t_gdz.resizeColumnToContents(0)
+        self.t_books.resizeColumnToContents(0)
+        self.t_gdz.horizontalHeader().setSectionResizeMode(1, Wid.QHeaderView.Stretch)
+        self.t_books.horizontalHeader().setSectionResizeMode(1, Wid.QHeaderView.Stretch)
+
+    def add_link(self):
+        dialog = Add(self)
+        dialog.show()
+
+    def open_link(self):
+        links = Db.get_lesson_links()
+        if links:
+            lesson, i = Wid.QInputDialog.getItem(self, 'Открыть', 'Выберите предмет', links, 0, False)
+            if i:
+                table, lesson = lesson.split('-')
+
+                webbrowser.open(Db.get_link(to_en[table], lesson))
+
+    def delete_link(self):
+        links = Db.get_lesson_links()
+        if links:
+            lesson, i = Wid.QInputDialog.getItem(self, 'Удалить', 'Выберите предмет', links, 0, False)
+            if i:
+                table, lesson = lesson.split('-')
+
+                Db.del_link(to_en[table], lesson)
+                self.full_link_tables()
