@@ -3,6 +3,7 @@ from add_interface import Ui_Dialog
 from dbwork import DBWork as Db
 
 
+# Диалоговое окно, отвечающее за работу кнопки "Добавить" раздела ссылки
 class Add(QtWidgets.QDialog, Ui_Dialog):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -16,7 +17,7 @@ class Add(QtWidgets.QDialog, Ui_Dialog):
         self.cancel_.clicked.connect(self.close)
         self.ok_.clicked.connect(self.ok)
 
-    def ok(self):
+    def ok(self):  # Функция для кнопки "ОК"
         if not self.input_link.text() or not self.input_lesson.text():
             self.close()
             return

@@ -3,6 +3,7 @@ from dbwork import DBWork as Db
 from constatnts import all_lessons
 
 
+# Диалоговое окно, отвечающее за работу кнопки "Важные" в пазделе "расписание"
 class Important(QtWidgets.QDialog):
     def __init__(self, par=None):
         super().__init__(par)
@@ -13,7 +14,7 @@ class Important(QtWidgets.QDialog):
         self.make_button()
         self.list_of_clicked = []
 
-    def connect_boxes(self):
+    def connect_boxes(self):  # Создание интерфейса
         lessons = all_lessons[:-1]
         for i in range(len(lessons)):
             box = QtWidgets.QCheckBox(self)
@@ -26,19 +27,19 @@ class Important(QtWidgets.QDialog):
             box.setText(lessons[i])
             box.stateChanged.connect(self.add_to_list)
 
-    def make_button(self):
+    def make_button(self):  # Добавление кнопки "ОК"
         self.ok_ = QtWidgets.QPushButton(self)
         self.ok_.setText('OK')
         self.ok_.setGeometry(475, 325, 125, 50)
         self.ok_.clicked.connect(self.ok)
 
-    def add_to_list(self, state):
+    def add_to_list(self, state):  # Функция для QCheckBox
         if state == QtCore.Qt.Checked:
             self.list_of_clicked.append(self.sender().text())
         else:
             self.list_of_clicked.remove(self.sender().text())
 
-    def ok(self):
+    def ok(self):  # Функция для кнопки "ОК"
         Db.save_important(self.list_of_clicked)
         if self.par.change_clicked:
             self.par.change_to_text()

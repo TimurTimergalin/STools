@@ -10,6 +10,7 @@ from add import Add
 import webbrowser
 
 
+# Основной класс программы
 class STools(Wid.QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
@@ -19,7 +20,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
         self.timetable()
         self.links()
 
-    def mid(self):
+    def mid(self):  # Раздел "Средний балл"
         self.marks = []
         self._5.clicked.connect(self.mark_clicked)
         self._4.clicked.connect(self.mark_clicked)
@@ -31,7 +32,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
         self.save_.clicked.connect(self.save_mid)
         self.import_.clicked.connect(self.import_mid)
 
-    def timetable(self):
+    def timetable(self):  # Раздел "расписание"
         self.tables = [self.t_monday, self.t_tuesday, self.t_wednesday, self.t_thursday, self.t_friday, self.t_saturday]
         tomorrow = week_day[(datetime.datetime.today().weekday() + 1) % 7]
         self.label.setText(_translate("MainWindow",
@@ -41,13 +42,13 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
         self.important_1.clicked.connect(self.change_timetable)
         self.important_.clicked.connect(self.important_clicked)
 
-    def links(self):
+    def links(self):  # Раздел "Ссылки"
         self.full_link_tables()
         self.add_.clicked.connect(self.add_link)
         self.open_.clicked.connect(self.open_link)
         self.delete_1.clicked.connect(self.delete_link)
 
-    def mark_clicked(self):
+    def mark_clicked(self):  # Кнопки оценок
         mark = self.sender().text()
         self.marks.append(int(mark))
         mid_mark = '%.2f' % (sum(self.marks) / len(self.marks))
@@ -56,13 +57,13 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
                                        f"<html><head/><body><p align=\"center\"><span style=\" font-size:72pt;\">{mid_mark}</span></p></body></html>"))
         self.list.setText(new_list)
 
-    def clear_mid(self):
+    def clear_mid(self):  # Кнопка "Очистить"
         self.marks.clear()
         self.list.setText('')
         self.middle.setText(_translate("MainWindow",
                                        "<html><head/><body><p align=\"center\"><span style=\" font-size:72pt;\">0.0</span></p></body></html>"))
 
-    def delete_mid(self):
+    def delete_mid(self):  # Кнопка "Стереть"
         if not self.marks:
             return
         self.marks.pop()
@@ -75,14 +76,14 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
                                            f"<html><head/><body><p align=\"center\"><span style=\" font-size:72pt;\">{mid_mark}</span></p></body></html>"))
             self.list.setText(new_list)
 
-    def save_mid(self):
+    def save_mid(self):  # Кнопка "Сохранить"
         all_lessons1 = all_lessons[:-1]
         lesson_name, i = Wid.QInputDialog.getItem(self, 'Сохранить балл', 'Выберите прдемет', all_lessons1, 37, False)
         if i and lesson_name:
             new_text = ''.join(list(map(lambda x: str(x), self.marks)))
             Db.save_middle(lesson_name, new_text)
 
-    def import_mid(self):
+    def import_mid(self):  # Кнопка "Импортировать"
         result = Db.get_middle()
 
         if result:
@@ -96,7 +97,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
                                                f"<html><head/><body><p align=\"center\"><span style=\" font-size:72pt;\">{mid_mark}</span></p></body></html>"))
                 self.list.setText(new_text)
 
-    def full_tables(self):
+    def full_tables(self):  # Заполняет таблицы раздела "Расписание"
         def item(day, lesson):
             values = Db.get_timetable()
             item_ = Wid.QTableWidgetItem(values[day][lesson])
@@ -110,7 +111,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
                 self.tables[j].setCellWidget(i, 0, None)
                 self.tables[j].horizontalHeader().setSectionResizeMode(0, Wid.QHeaderView.Stretch)
 
-    def change_to_combos(self):
+    def change_to_combos(self):  # Меняет текст на QComboBox
         def combo(day, lesson):
             combo_ = Wid.QComboBox()
             combo_.addItems(all_lessons)
@@ -123,7 +124,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
             for j in range(len(self.tables)):
                 self.tables[j].setCellWidget(i, 0, combo(j, i))
 
-    def change_to_text(self):
+    def change_to_text(self):  # Меняет QComboBox на текст
         def text(day, lesson):
             value = self.tables[day].cellWidget(lesson, 0).currentText()
             return value
@@ -140,7 +141,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
                 self.tables[j].setCellWidget(i, 0, None)
                 self.tables[j].horizontalHeader().setSectionResizeMode(0, Wid.QHeaderView.Stretch)
 
-    def change_timetable(self):
+    def change_timetable(self):  # Кнопка "Изменить"
         self.change_clicked = not self.change_clicked
 
         if self.change_clicked:
@@ -148,11 +149,11 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
         else:
             self.change_to_text()
 
-    def important_clicked(self):
+    def important_clicked(self):  # Кнопка "Важные"
         dialog = Important(self)
         dialog.show()
 
-    def full_link_tables(self):
+    def full_link_tables(self):  # Заполняет таблицы раздела "Ссылки"
         self.t_books.setRowCount(0)
         self.t_gdz.setRowCount(0)
         self.t_books.setColumnCount(2)
@@ -185,11 +186,11 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
         self.t_gdz.horizontalHeader().setSectionResizeMode(1, Wid.QHeaderView.Stretch)
         self.t_books.horizontalHeader().setSectionResizeMode(1, Wid.QHeaderView.Stretch)
 
-    def add_link(self):
+    def add_link(self):  # Кнопка "Добавить/Изменит"
         dialog = Add(self)
         dialog.show()
 
-    def open_link(self):
+    def open_link(self):  # Кнопка "Открыть"
         links = Db.get_lesson_links()
         if links:
             lesson, i = Wid.QInputDialog.getItem(self, 'Открыть', 'Выберите предмет', links, 0, False)
@@ -198,7 +199,7 @@ class STools(Wid.QMainWindow, Ui_MainWindow):
 
                 webbrowser.open(Db.get_link(to_en[table], lesson))
 
-    def delete_link(self):
+    def delete_link(self):  # Кнопка "Удалить"
         links = Db.get_lesson_links()
         if links:
             lesson, i = Wid.QInputDialog.getItem(self, 'Удалить', 'Выберите предмет', links, 0, False)

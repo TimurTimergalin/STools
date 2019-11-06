@@ -2,6 +2,7 @@ from PyQt5 import QtCore as Core
 import sqlite3
 
 
+# Просто несколько констант
 def f_all_lessons():
     cur = sqlite3.connect('misc/all_lessons.sqlite3').cursor()
     result = cur.execute(f"""SELECT lesson from all_lessons""").fetchall()

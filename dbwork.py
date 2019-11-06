@@ -2,6 +2,7 @@ import sqlite3
 from constatnts import week_dict
 
 
+# Класс, в котором происходит работа с db
 class DBWork:
     @staticmethod
     def save_middle(lesson, marks):
